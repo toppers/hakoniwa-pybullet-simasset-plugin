@@ -6,6 +6,15 @@ from hako_asset_controller import HakoAssetController
 from hako_asset_pdu import HakoAssetPdu
 from phys_impl.hako_phys_pybullet import HakoPhysPybullet
 
+class HakoRoboPhysRunner:
+    def __init__(self, asset_name, robo_name, offset_path, readers, writers):
+        self.pdu = HakoAssetPdu(asset_name, robo_name, offset_path)
+        self.pdu.create_pdu_lchannel(writers)
+        self.pdu.subscribe_pdu_lchannel(readers)
+
+    def set_phys(self, phys):
+        self.phys = phys
+
 class HakoPhysRunner:
     def __init__(self, filepath):
         with open(filepath, 'r') as file:
@@ -25,9 +34,7 @@ class HakoPhysRunner:
             print("robo:", entry['name'])
             readers = entry['shm_pdu_readers']
             writers = entry['shm_pdu_writers']
-            robo = HakoAssetPdu(self.controller.asset_name, entry['name'], self.config['offset_path'])
-            robo.create_pdu_lchannel(writers)
-            robo.subscribe_pdu_lchannel(readers)
+            robo = HakoRoboPhysRunner(self.controller.asset_name, entry['name'], self.config['offset_path'],readers, writers)
             self.robots.append(robo)
 
     def start(self):
