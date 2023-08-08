@@ -25,9 +25,11 @@ class HakoAssetPdu:
         self.read_raw_buffers = {}
 
     def create_pdu_lchannel(self, writers):
+        if writers == None:
+            writers = []
         self.writers = writers
         for writer in writers:
-            typename = writer.type.split('/')[1]
+            typename = writer['type'].split('/')[1]
             channel_id = writer['channel_id']
             pdu_size = writer['pdu_size']
             org_name = writer['org_name']
@@ -42,12 +44,14 @@ class HakoAssetPdu:
             self.write_raw_buffers[channel_id] = binary_reader.binary_read(self.offmap, typename, binary_data)
 
     def subscribe_pdu_lchannel(self, readers):
+        if readers == None:
+            readers = []
         self.readers = readers
         for reader in readers:
             channel_id = reader['channel_id']
             pdu_size = reader['pdu_size']
             org_name = reader['org_name']
-            typename = reader.type.split('/')[1]
+            typename = reader['type'].split('/')[1]
             self.reader_name2channel[org_name] = channel_id
             self.reader_channel2type[channel_id] = typename
             self.reader_channel2pdusize[channel_id] = pdu_size

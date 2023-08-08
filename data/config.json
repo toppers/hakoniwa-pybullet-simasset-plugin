@@ -1,0 +1,5 @@
+{
+    "robot_config_path": "./data/custom.json",
+    "offset_path": "./data/ros_types/offset",
+    "delta_msec": 20
+}

@@ -23,9 +23,11 @@ class HakoAssetController:
         TERMINATED = 6
 
     def __init__(self, delta_usec):
-        self.asset_name = "HakoPybulletAsset"
+        self.asset_name = "HakoPhysAsset"
         self.delta_usec = delta_usec
         self.asset_time_usec = 0
+
+    def initialize(self):
         hakoc.asset_init()
         hakoc.asset_register(self.asset_name)
 
