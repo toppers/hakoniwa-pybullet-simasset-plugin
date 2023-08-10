@@ -3,7 +3,7 @@
 
 from abc import ABC, abstractmethod
 
-class HakoRoboOps(ABC):
+class HakoPhysRoboOps(ABC):
     @abstractmethod
     def initialize():
         pass

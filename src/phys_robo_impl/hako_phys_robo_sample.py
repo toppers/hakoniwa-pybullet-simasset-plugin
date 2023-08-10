@@ -4,9 +4,9 @@
 import pybullet as p
 import pybullet_data
 
-from hako_robo_ops import HakoRoboOps
+from hako_phys_robo_ops import HakoPhysRoboOps
 
-class HakoRoboSample(HakoRoboOps):
+class HakoPhysRoboSample(HakoPhysRoboOps):
     def __init__(self):
         pass
 

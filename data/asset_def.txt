@@ -1,1 +1,1 @@
-src/hako_phys_runner.py:./data/config.json
+src/hako_runner.py:./data/config.json
