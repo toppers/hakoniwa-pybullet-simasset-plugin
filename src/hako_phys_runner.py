@@ -84,6 +84,7 @@ class HakoPhysRunner:
                         print("WAIT_RESET")
                         self.controller.wait_event(HakoAssetController.HakoEvent.RESET)
                         print("DONE")
+                        #TODO simulation phys reset
                         break
                     else:
                         if self.controller.is_pdy_sync_mode():

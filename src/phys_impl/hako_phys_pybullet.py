@@ -12,8 +12,8 @@ class HakoPhysPybullet(HakoPhysOps):
         self.physicsClient = p.connect(p.GUI)
         p.resetSimulation()
         p.setAdditionalSearchPath(pybullet_data.getDataPath())
-        p.setGravity(0,0,-10)
-        timestep = 1. / 60.
+        p.setGravity(0,0,-9.81)
+        timestep = 0.01
         p.setTimeStep(timestep)
         self.planeId = p.loadURDF("../bullet3/data/plane.urdf")
 
@@ -40,6 +40,6 @@ if __name__ == "__main__":
 
     while True:
         phys.step()
-        time.sleep(1. / 60.)
+        time.sleep(0.01)
     
     print("END")

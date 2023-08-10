@@ -1,35 +1,27 @@
 {
   "robots": [
     {
-      "name": "EV3TrainModelWithBaggage",
+      "name": "SampleRobo",
       "shm_proxy": {
         "name": "Athrill",
         "class_name": "Hakoniwa.PluggableAsset.Assets.Micon.EV3.Ev3MiconAssetController"
       },
       "shm_pdu_readers": [
         {
-          "type": "ev3_msgs/Ev3PduActuator",
-          "org_name": "ev3_actuator",
-          "name": "EV3TrainModelWithBaggage_ev3_actuator",
-          "class_name": "Hakoniwa.PluggableAsset.Communication.Pdu.Raw.RawPduReader",
-          "class_path": null,
-          "conv_class_name": "Hakoniwa.PluggableAsset.Communication.Pdu.Raw.RawPduReaderConverter",
-          "conv_class_path": null,
+          "type": "geometry_msgs/Twist",
+          "org_name": "cmd_vel",
+          "name": "SampleRobo_cmd_vel",
           "channel_id": 0,
-          "pdu_size": 196
+          "pdu_size": 48
         }
       ],
       "shm_pdu_writers": [
         {
-          "type": "ev3_msgs/Ev3PduSensor",
-          "org_name": "ev3_sensor",
-          "name": "EV3TrainModelWithBaggage_ev3_sensor",
-          "class_name": "Hakoniwa.PluggableAsset.Communication.Pdu.Raw.RawPduWriter",
-          "class_path": "",
-          "conv_class_name": "Hakoniwa.PluggableAsset.Communication.Pdu.Raw.RawPduWriterConverter",
-          "conv_class_path": "",
+          "type": "std_msgs/String",
+          "org_name": "sensor",
+          "name": "SampleRobo_sensor",
           "channel_id": 1,
-          "pdu_size": 248,
+          "pdu_size": 256,
           "method_type": "SHM"
         }
       ]
