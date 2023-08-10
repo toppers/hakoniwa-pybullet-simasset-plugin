@@ -49,11 +49,13 @@ class HakoAssetController:
             curr_time = hakoc.asset_get_worldtime()
 
     def state(self):
-        return hakoc.state()
+        state_value = hakoc.state()
+        return HakoAssetController.HakoState(state_value)
 
     def wait_event(self, ev):
         while True:
-            current_ev = hakoc.asset_get_event(self.asset_name)
+            current_ev_value = hakoc.asset_get_event(self.asset_name)
+            current_ev = HakoAssetController.HakoEvent(current_ev_value)
             if current_ev == HakoAssetController.HakoEvent.NONE:
                 time.sleep(0.01)
             elif current_ev == HakoAssetController.HakoEvent.START:
@@ -67,7 +69,7 @@ class HakoAssetController:
                 self.asset_time_usec = 0
                 return True
             else:
-                print("ERROR: unknown event:" + current_ev)
+                print("ERROR: unknown event:" + str(current_ev))
                 return False
 
     def wait_state(self, expect_state):

@@ -8,7 +8,7 @@ class HakoPhysOps(ABC):
     def initialize():
         pass
     @abstractmethod
-    def get_name():
+    def get_phys():
         pass
     @abstractmethod
     def step():

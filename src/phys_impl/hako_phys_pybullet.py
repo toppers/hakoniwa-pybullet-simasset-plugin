@@ -16,21 +16,14 @@ class HakoPhysPybullet(HakoPhysOps):
         timestep = 1. / 60.
         p.setTimeStep(timestep)
         self.planeId = p.loadURDF("../bullet3/data/plane.urdf")
-        StartPos = [0,0,0]  
-        StartOrient = p.getQuaternionFromEuler([0,0,3.14]) 
-        self.carId = p.loadURDF("../bullet3/data/racecar/racecar.urdf",StartPos, StartOrient)
 
     def initialize(self):
         pass
 
-    def get_name(self):
-        pass
+    def get_phys(self):
+        return p
 
     def step(self):
-        p.setJointMotorControl2(self.carId, 2, p.VELOCITY_CONTROL, targetVelocity=10)
-        p.setJointMotorControl2(self.carId, 3, p.VELOCITY_CONTROL, targetVelocity=40)
-        p.setJointMotorControl2(self.carId, 5, p.VELOCITY_CONTROL, targetVelocity=10)
-        p.setJointMotorControl2(self.carId, 7, p.VELOCITY_CONTROL, targetVelocity=40)
         p.stepSimulation()
 
     def reset(self):
