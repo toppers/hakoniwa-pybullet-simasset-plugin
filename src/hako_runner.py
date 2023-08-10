@@ -6,6 +6,7 @@ import time
 from hako_asset_controller import HakoAssetController
 from hako_asset_pdu import HakoAssetPdu
 from phys_impl.hako_phys_pybullet import HakoPhysPybullet
+from apl_impl.hako_apl_sample import HakoAplSample
 from phys_robo_impl.hako_phys_robo_sample import HakoPhysRoboSample
 
 class HakoRoboPhysRunner:
@@ -33,7 +34,8 @@ class HakoAplRunner:
         self.pdu = HakoAssetPdu(asset_name, robo_name, offset_path)
         self.pdu.create_pdu_lchannel(writers)
         self.pdu.subscribe_pdu_lchannel(readers)
-        #TODO
+        self.apl = HakoAplSample()
+        self.apl.initialize(self.pdu)
     
     def sync_read_pdus(self):
         self.pdu.sync_read_buffers()
@@ -42,8 +44,7 @@ class HakoAplRunner:
         self.pdu.sync_write_buffers()
 
     def step(self):
-        #TODO
-        pass
+        self.apl.step()
 
     def reset(self):
         #TODO
@@ -106,6 +107,14 @@ class HakoRunner:
         for entry in self.apls:
             entry.sync_write_pdus()
 
+    def apl_sync_read_pdus(self):
+        for entry in self.apls:
+            entry.sync_read_pdus()
+
+    def apl_step(self):
+        for entry in self.apls:
+            entry.step()
+
     def run(self):
         while True:
             print("WAIT START:")
@@ -135,13 +144,18 @@ class HakoRunner:
                             self.apl_sync_write_pdus()
                         time.sleep(0.01)
                         continue
+
+                #FOR PHYS
                 self.sync_read_pdus()
                 self.do_actuation()
-
                 self.phys.step()
-
                 self.copy_sensing_data2pdu()
                 self.sync_write_pdus()
+
+                #FOR APLS
+                self.apl_sync_read_pdus()
+                self.apl_step()
+                self.apl_sync_write_pdus()
                 time.sleep(0.01)
  
     def _reset(self):
