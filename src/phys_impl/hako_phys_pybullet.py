@@ -11,14 +11,13 @@ class HakoPhysPybullet(HakoPhysOps):
     def __init__(self):
         self.physicsClient = p.connect(p.GUI)
         p.resetSimulation()
+
+    def initialize(self):
         p.setAdditionalSearchPath(pybullet_data.getDataPath())
         p.setGravity(0,0,-9.81)
         timestep = 0.01
         p.setTimeStep(timestep)
         self.planeId = p.loadURDF("../bullet3/data/plane.urdf")
-
-    def initialize(self):
-        pass
 
     def get_phys(self):
         return p
@@ -27,7 +26,8 @@ class HakoPhysPybullet(HakoPhysOps):
         p.stepSimulation()
 
     def reset(self):
-        pass
+        p.resetSimulation()
+        self.initialize()
 
 
 if __name__ == "__main__":

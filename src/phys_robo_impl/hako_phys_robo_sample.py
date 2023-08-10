@@ -8,17 +8,18 @@ from hako_asset_pdu import HakoAssetPdu
 from hako_phys_robo_ops import HakoPhysRoboOps
 
 class HakoPhysRoboSample(HakoPhysRoboOps):
-    def __init__(self):
-        pass
-
-    def initialize(self, pdu):
+    def __init__(self, pdu):
         self.pdu = pdu
         self.read_channel = 0
         self.write_channel = 1
 
+    def initialize(self):
         StartPos = [0,0,0]  
         StartOrient = p.getQuaternionFromEuler([0,0,3.14]) 
         self.carId = p.loadURDF("../bullet3/data/racecar/racecar.urdf", StartPos, StartOrient)
+
+    def reset(self):
+        self.initialize() 
 
     def get_name(self):
         return str("Robo-" + str(self.carId))

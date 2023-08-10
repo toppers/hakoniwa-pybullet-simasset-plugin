@@ -8,6 +8,9 @@ class HakoPhysRoboOps(ABC):
     def initialize():
         pass
     @abstractmethod
+    def reset():
+        pass
+    @abstractmethod
     def get_name():
         pass
     @abstractmethod

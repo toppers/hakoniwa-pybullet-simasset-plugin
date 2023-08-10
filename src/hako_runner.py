@@ -14,8 +14,8 @@ class HakoRoboPhysRunner:
         self.pdu = HakoAssetPdu(asset_name, robo_name, offset_path)
         self.pdu.create_pdu_lchannel(writers)
         self.pdu.subscribe_pdu_lchannel(readers)
-        self.robo_phys = HakoPhysRoboSample()
-        self.robo_phys.initialize(self.pdu)
+        self.robo_phys = HakoPhysRoboSample(self.pdu)
+        self.robo_phys.initialize()
     
     def sync_read_pdus(self):
         self.pdu.sync_read_buffers()
@@ -28,6 +28,9 @@ class HakoRoboPhysRunner:
 
     def copy_sensing_data2pdu(self):
         self.robo_phys.copy_sensing_data2pdu()
+
+    def reset(self):
+        self.robo_phys.reset()
 
 class HakoAplRunner:
     def __init__(self, asset_name, robo_name, offset_path, readers, writers):
@@ -47,8 +50,7 @@ class HakoAplRunner:
         self.apl.step()
 
     def reset(self):
-        #TODO
-        pass
+        self.apl.reset()
 
 
 class HakoRunner:
@@ -103,6 +105,11 @@ class HakoRunner:
         for entry in self.robots:
             entry.sync_write_pdus()
 
+    def robo_reset(self):
+        for entry in self.robots:
+            entry.reset()
+
+
     def apl_sync_write_pdus(self):
         for entry in self.apls:
             entry.sync_write_pdus()
@@ -114,6 +121,10 @@ class HakoRunner:
     def apl_step(self):
         for entry in self.apls:
             entry.step()
+
+    def apl_reset(self):
+        for entry in self.apls:
+            entry.reset()
 
     def run(self):
         while True:
@@ -132,8 +143,11 @@ class HakoRunner:
                         self.controller.wait_event(HakoAssetController.HakoEvent.STOP)
                         print("WAIT_RESET")
                         self.controller.wait_event(HakoAssetController.HakoEvent.RESET)
-                        print("DONE")
                         #TODO simulation phys reset
+                        self.phys.reset()
+                        self.robo_reset()
+                        self.apl_reset()
+                        print("DONE")
                         break
                     else:
                         if self.controller.is_pdy_sync_mode():

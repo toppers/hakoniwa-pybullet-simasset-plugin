@@ -16,8 +16,9 @@ class HakoAplSample(HakoAplOps):
     def step(self):
         #GET PDU
         read_data = self.pdu.get_read_pdu_json(self.read_channel)
-        cmd_vel = self.pdu.get_write_pdu_json(self.write_channel)
-        
+        #print("read_data: ", read_data['data'])
+
+        cmd_vel = self.pdu.get_write_pdu_json(self.write_channel)        
         cmd_vel['linear']['x'] = -1.0
         cmd_vel['linear']['y'] = -1.0
         #print(str(cmd_vel))
