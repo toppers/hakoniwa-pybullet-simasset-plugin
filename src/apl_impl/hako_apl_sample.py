@@ -19,8 +19,8 @@ class HakoAplSample(HakoAplOps):
         #print("read_data: ", read_data['data'])
 
         cmd_vel = self.pdu.get_write_pdu_json(self.write_channel)        
-        cmd_vel['linear']['x'] = -1.0
-        cmd_vel['linear']['y'] = -1.0
+        cmd_vel['linear']['x'] = 1.0
+        cmd_vel['linear']['y'] = 5.0
         #print(str(cmd_vel))
         #WRITE PDU
         self.pdu.update_write_buffer(self.write_channel, cmd_vel)
