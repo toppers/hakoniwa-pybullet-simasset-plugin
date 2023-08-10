@@ -15,7 +15,7 @@ class HakoRoboPhysRunner:
         self.pdu.create_pdu_lchannel(writers)
         self.pdu.subscribe_pdu_lchannel(readers)
         self.robo_phys = HakoPhysRoboSample()
-        self.robo_phys.initialize()
+        self.robo_phys.initialize(self.pdu)
     
     def sync_read_pdus(self):
         self.pdu.sync_read_buffers()
