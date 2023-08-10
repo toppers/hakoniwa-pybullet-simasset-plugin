@@ -86,8 +86,8 @@ class HakoAssetController:
             else:
                 return True
 
-    def write_pdu_done(self):
-        hakoc.asset_notify_write_pdu_done(self.asset_name)
+    def is_pdy_sync_mode(self):
+        return hakoc.asset_is_pdu_sync_mode(self.asset_name)
     
     def execute(self):
         result = hakoc.asset_notify_simtime(self.asset_name, self.asset_time_usec)

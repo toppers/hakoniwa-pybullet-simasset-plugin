@@ -15,6 +15,12 @@ class HakoRoboPhysRunner:
         self.pdu.subscribe_pdu_lchannel(readers)
         self.robo_phys = HakoRoboSample()
         self.robo_phys.initialize()
+    
+    def sync_read_pdus(self):
+        self.pdu.sync_read_buffers()
+    
+    def sync_write_pdus(self):
+        self.pdu.sync_write_buffers()
 
     def do_actuation(self):
         self.robo_phys.do_actuation()
@@ -52,21 +58,48 @@ class HakoPhysRunner:
         for entry in self.robots:
             entry.copy_sensing_data2pdu()
 
+    def sync_read_pdus(self):
+        for entry in self.robots:
+            entry.sync_read_pdus()
+
+    def sync_write_pdus(self):
+        for entry in self.robots:
+            entry.sync_write_pdus()
+
     def run(self):
-        print("WAIT START:")
-        self.controller.wait_event(HakoAssetController.HakoEvent.START)
-        print("WAIT RUNNING:")
-        self.controller.wait_state(HakoAssetController.HakoState.RUNNING)
-        print("WAIT PDU CREATED:")
-        self.controller.wait_pdu_created()
-
-        print("GO:")
         while True:
-            self.copy_sensing_data2pdu()
-            self.phys.step()
-            self.do_actuation()
-            time.sleep(1. / 60.)
+            print("WAIT START:")
+            self.controller.wait_event(HakoAssetController.HakoEvent.START)
+            print("WAIT RUNNING:")
+            self.controller.wait_state(HakoAssetController.HakoState.RUNNING)
+            print("WAIT PDU CREATED:")
+            self.controller.wait_pdu_created()
 
+            print("GO:")
+            while True:
+                if self.controller.execute() == False:
+                    if self.controller.state() != HakoAssetController.HakoState.RUNNING:
+                        print("WAIT_STOP")
+                        self.controller.wait_event(HakoAssetController.HakoEvent.STOP)
+                        print("WAIT_RESET")
+                        self.controller.wait_event(HakoAssetController.HakoEvent.RESET)
+                        print("DONE")
+                        break
+                    else:
+                        if self.controller.is_pdy_sync_mode():
+                            self.copy_sensing_data2pdu()
+                            self.sync_write_pdus()
+                        time.sleep(0.01)
+                        continue
+                self.sync_read_pdus()
+                self.do_actuation()
+
+                self.phys.step()
+
+                self.copy_sensing_data2pdu()
+                self.sync_write_pdus()
+                time.sleep(0.01)
+ 
     def _reset(self):
         pass
 

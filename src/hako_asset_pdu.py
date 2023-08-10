@@ -41,7 +41,7 @@ class HakoAssetPdu:
             print("create:pdu_size=" + str(pdu_size))
             hakoc.asset_create_pdu_lchannel(self.control_asset_name, channel_id, pdu_size)
             binary_data = bytearray(pdu_size)
-            self.write_raw_buffers[channel_id] = binary_reader.binary_read(self.offmap, typename, binary_data)
+            self.write_raw_buffers[channel_id] = binary_data
 
     def subscribe_pdu_lchannel(self, readers):
         if readers == None:
@@ -68,7 +68,7 @@ class HakoAssetPdu:
                              self.read_raw_buffers[channel_id], 
                              self.reader_channel2pdusize[channel_id])
 
-    def update_read_buffers(self):
+    def sync_read_buffers(self):
         for reader in self.readers:
             channel_id = reader['channel_id']
             self._read_pdu(channel_id)
@@ -89,7 +89,7 @@ class HakoAssetPdu:
         binary_data = self.write_raw_buffers[channel_id]
         return binary_reader.binary_read(self.offmap, typename, binary_data)
 
-    def update_write_buffers(self):
+    def sync_write_buffers(self):
         for writer in self.writers:
             channel_id = writer['channel_id']
             hakoc.asset_write_pdu(self.asset_name, self.control_asset_name, channel_id, self.write_raw_buffers[channel_id], self.writer_channel2pdusize[channel_id])
