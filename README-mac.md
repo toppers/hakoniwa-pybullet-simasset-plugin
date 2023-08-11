@@ -27,13 +27,13 @@ cd hakoniwa-pybullet-simasset-plugin/
 arm系の場合：
 
 ```
-bash native/template/runtime/ai/mac/install.bash arm
+bash tools/install.bash arm
 ```
 
 intel系の場合：
 
 ```
-bash native/template/runtime/ai/mac/install.bash intel
+bash tools/install.bash intel
 ```
 
 途中、パスワードが聞かれますので、入力してください。
