@@ -89,7 +89,8 @@ WAIT START:
 
 また、下図のように、pybullet の GUI 画面が出力されます。
 
-(TODO)
+<img width="1024" alt="スクリーンショット 2023-08-11 15 53 03" src="https://github.com/toppers/hakoniwa-pybullet-simasset-plugin/assets/164193/504211d6-1731-4fba-81b5-7a4d850a9cd0">
+
 
 ## シミュレーション開始する
 
@@ -108,4 +109,3 @@ hako-cmd stop
 ```
 hako-cmd reset
 ```
-
