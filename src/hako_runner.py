@@ -61,8 +61,11 @@ class HakoRunner:
         with open(self.config['robot_config_path'], 'r') as file:
             self.robo_config = json.load(file)
 
-        with open(self.config['apl_config_path'], 'r') as file:
-            self.apl_config = json.load(file)
+        if self.config.get('apl_config_path') != None:
+            with open(self.config['apl_config_path'], 'r') as file:
+                self.apl_config = json.load(file)
+        else:
+            self.apl_config = None
 
         self.phys = HakoPhysPybullet()
         self.controller = HakoAssetController(self.config['delta_msec'] * 1000)
@@ -82,12 +85,13 @@ class HakoRunner:
 
         # ROBOTS FOR APPLICATIONS
         self.apls = []
-        for entry in self.apl_config['robots']:
-            print("apl:", entry['name'])
-            readers = entry['shm_pdu_readers']
-            writers = entry['shm_pdu_writers']
-            robo = HakoAplRunner(self.controller.asset_name, entry['name'], self.config['offset_path'],readers, writers)
-            self.apls.append(robo)
+        if self.apl_config != None:
+            for entry in self.apl_config['robots']:
+                print("apl:", entry['name'])
+                readers = entry['shm_pdu_readers']
+                writers = entry['shm_pdu_writers']
+                robo = HakoAplRunner(self.controller.asset_name, entry['name'], self.config['offset_path'],readers, writers)
+                self.apls.append(robo)
 
     def do_actuation(self):
         for entry in self.robots:
