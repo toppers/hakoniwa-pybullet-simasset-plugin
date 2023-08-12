@@ -71,6 +71,10 @@ function activate()
     HAKO_ASSET_PROG_PID=
     for entry in `cat ${ASSET_DEF}`
     do
+        echo $entry
+        if [ "${entry:0:1}" = "#" ]; then
+            continue
+        fi
         RUNTYPE=`echo ${entry} | awk -F: '{print $1}'`
         PROG_NAME=`echo ${entry}  | awk -F: '{print $2}'`
         ARG1=`echo ${entry}  | awk -F: '{print $3}'`
@@ -99,3 +103,6 @@ while true; do
         break
     fi
 done
+
+bash tools/rm_ipcs.bash
+

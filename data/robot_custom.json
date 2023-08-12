@@ -20,6 +20,7 @@
           "type": "std_msgs/String",
           "org_name": "sensor",
           "name": "SampleRobo_sensor",
+          "write_cycle": 1,
           "channel_id": 1,
           "pdu_size": 256,
           "method_type": "SHM"

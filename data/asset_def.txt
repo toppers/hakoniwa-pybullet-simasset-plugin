@@ -1,1 +1,2 @@
-src/hako_runner.py:./data/config.json
+python:src/hako_runner.py:./data/config.json
+#binary:/Users/tmori/project/oss/hakoniwa-ros2pdu/mros2-posix/cmake_build/mros2-posix
